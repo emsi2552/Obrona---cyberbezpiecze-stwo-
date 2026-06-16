@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>CyberEgzamin – Przygotowanie do Obrony</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8fafc; min-height: 100vh; color: #1e293b; overflow-x: hidden; }
+.screen { display: none; min-height: 100vh; padding: 20px; }
+.screen.active { display: flex; flex-direction: column; align-items: center; }
+.wrap { max-width: 460px; width: 100%; }
+
+/* COLORS */
+:root {
+  --blue: #4f8ef7;
+  --purple: #9b6ef7;
+  --pink: #f75e8e;
+  --green: #3ed6a0;
+  --yellow: #f7c34f;
+  --orange: #f7834f;
+  --dark: #f1f5f9;
+  --card: rgba(0,0,0,0.04);
+  --border: rgba(0,0,0,0.1);
+}
+
+/* HEADER */
+.app-header { text-align: center; padding: 32px 0 24px; }
+.app-logo { font-size: 40px; margin-bottom: 8px; }
+.app-title { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, var(--blue), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.app-sub { color: #64748b; font-size: 13px; margin-top: 4px; }
+.progress-pill { display: inline-flex; align-items: center; gap: 8px; background: rgba(79,142,247,0.1); border: 1px solid rgba(79,142,247,0.2); border-radius: 20px; padding: 8px 16px; margin-top: 12px; font-size: 13px; color: #475569; }
+.progress-pill span { color: var(--blue); font-weight: 700; }
+
+/* SECTION HEADERS */
+.section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #64748b; margin: 20px 0 10px; }
+
+/* MENU GRID */
+.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.menu-grid.full { grid-template-columns: 1fr; }
+.menu-card { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 16px; padding: 16px; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; align-items: center; gap: 12px; }
+.menu-card:hover, .menu-card:active { transform: scale(0.98); background: rgba(0,0,0,0.07); }
+.menu-card.big { flex-direction: column; align-items: flex-start; padding: 20px; }
+.menu-icon { font-size: 24px; }
+.menu-card-title { font-size: 14px; font-weight: 600; color: #1e293b; }
+.menu-card-sub { font-size: 12px; color: #475569; margin-top: 2px; }
+.accent-bar { height: 3px; border-radius: 2px; width: 32px; margin-top: 10px; }
+
+/* BUTTONS */
+.btn { border: none; border-radius: 12px; padding: 14px 20px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.2s; font-family: inherit; }
+.btn:active { transform: scale(0.98); }
+.btn-blue { background: var(--blue); color: white; }
+.btn-purple { background: var(--purple); color: white; }
+.btn-pink { background: var(--pink); color: white; }
+.btn-green { background: var(--green); color: #0d0d1a; }
+.btn-yellow { background: var(--yellow); color: #0d0d1a; }
+.btn-orange { background: var(--orange); color: white; }
+.btn-ghost { background: rgba(0,0,0,0.06); color: #475569; }
+.btn-red-soft { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; }
+.btn-green-soft { background: rgba(62,214,160,0.15); border: 1px solid rgba(62,214,160,0.3); color: var(--green); }
+.btn-row { display: flex; gap: 10px; }
+.btn-row .btn { flex: 1; }
+.btn-sm { padding: 8px 16px; font-size: 13px; width: auto; border-radius: 8px; }
+
+/* TOPBAR */
+.topbar { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 460px; margin-bottom: 16px; }
+.back-btn { background: none; border: none; color: var(--blue); cursor: pointer; font-size: 14px; padding: 0; font-family: inherit; }
+
+/* CARDS */
+.card { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 20px; padding: 20px; width: 100%; }
+.label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.label-blue { color: var(--blue); }
+.label-green { color: var(--green); }
+.label-pink { color: var(--pink); }
+.label-yellow { color: var(--yellow); }
+.label-orange { color: var(--orange); }
+.answer-box { background: rgba(62,214,160,0.1); border: 1px solid rgba(62,214,160,0.3); border-radius: 12px; padding: 16px; }
+.answer-text { color: #334155; font-size: 14px; line-height: 1.75; white-space: pre-line; }
+.hint-text { color: #64748b; font-size: 13px; font-style: italic; }
+textarea { width: 100%; min-height: 110px; background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 14px; color: #1e293b; font-size: 14px; resize: vertical; outline: none; font-family: inherit; line-height: 1.6; }
+textarea:focus { border-color: var(--blue); }
+.sep { border-top: 1px solid var(--border); margin: 14px 0; }
+.mt8 { margin-top: 8px; } .mt12 { margin-top: 12px; } .mt16 { margin-top: 16px; } .mt20 { margin-top: 20px; }
+.mb8 { margin-bottom: 8px; } .mb12 { margin-bottom: 12px; } .mb16 { margin-bottom: 16px; } .mb20 { margin-bottom: 20px; }
+.gap10 { display: flex; flex-direction: column; gap: 10px; }
+.center { text-align: center; }
+
+/* PROGRESS BAR */
+.pbar-bg { height: 4px; background: rgba(0,0,0,0.07); border-radius: 2px; }
+.pbar-fill { height: 100%; border-radius: 2px; transition: width 0.4s; }
+
+/* TIMER */
+.timer-ring { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+.timer-num { position: absolute; font-size: 18px; font-weight: 800; }
+
+/* STREAK */
+.streak-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(247,195,79,0.2); border: 1px solid rgba(247,195,79,0.4); border-radius: 20px; padding: 6px 14px; font-size: 14px; font-weight: 700; color: var(--yellow); }
+
+/* SNAKE GAME */
+#snake-canvas { border-radius: 12px; border: 2px solid rgba(0,0,0,0.1); display: block; max-width: 100%; }
+.snake-question { background: rgba(79,142,247,0.1); border: 1px solid rgba(79,142,247,0.2); border-radius: 12px; padding: 14px; margin-bottom: 12px; font-size: 14px; font-weight: 600; color: #1e293b; line-height: 1.4; }
+.snake-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.snake-legend-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #475569; }
+.snake-legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+/* CANDY GAME */
+.candy-board { display: grid; gap: 6px; margin: 12px 0; }
+.candy-cell { border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; text-align: center; padding: 6px; line-height: 1.2; transition: all 0.15s; border: 2px solid transparent; min-height: 56px; color: white; }
+.candy-cell:active { transform: scale(0.95); }
+.candy-cell.selected { border-color: white; transform: scale(1.05); box-shadow: 0 0 12px rgba(255,255,255,0.3); }
+.candy-cell.matched { opacity: 0.3; pointer-events: none; }
+
+/* WHEEL */
+#wheel-canvas { display: block; margin: 0 auto; max-width: 100%; }
+
+/* SCORE */
+.score-big { font-size: 48px; font-weight: 800; }
+.score-label { color: #475569; font-size: 14px; margin-top: 4px; }
+
+/* TRUE/FALSE */
+.tf-btn { border: none; border-radius: 16px; padding: 20px; font-size: 22px; font-weight: 800; cursor: pointer; flex: 1; transition: all 0.2s; font-family: inherit; }
+.tf-btn:active { transform: scale(0.95); }
+.tf-true { background: rgba(62,214,160,0.15); border: 2px solid var(--green); color: var(--green); }
+.tf-false { background: rgba(239,68,68,0.15); border: 2px solid #f87171; color: #f87171; }
+.tf-true.correct, .tf-false.correct { background: var(--green); color: #0d0d1a; }
+.tf-true.wrong, .tf-false.wrong { background: #f87171; color: white; }
+
+/* PROGRESS SCREEN */
+.prog-item { background: rgba(0,0,0,0.03); border-radius: 10px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.prog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.prog-stat { background: rgba(0,0,0,0.03); border-radius: 12px; padding: 14px; text-align: center; }
+.prog-num { font-size: 26px; font-weight: 800; }
+
+/* SPEED QUIZ */
+.speed-option { background: rgba(0,0,0,0.03); border: 2px solid rgba(0,0,0,0.1); border-radius: 12px; padding: 14px; cursor: pointer; font-size: 14px; font-weight: 500; color: #1e293b; transition: all 0.15s; text-align: left; width: 100%; font-family: inherit; }
+.speed-option:active { transform: scale(0.98); }
+.speed-option.correct { background: rgba(62,214,160,0.2); border-color: var(--green); color: var(--green); }
+.speed-option.wrong { background: rgba(239,68,68,0.15); border-color: #f87171; color: #f87171; }
+.speed-option.reveal { background: rgba(62,214,160,0.1); border-color: rgba(62,214,160,0.3); }
+
+/* FILTER PILLS */
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.fpill { padding: 6px 14px; border-radius: 20px; border: none; font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+.fpill.on { background: var(--blue); color: white; }
+.fpill.off { background: rgba(0,0,0,0.07); color: #475569; }
+
+/* DONE SCREEN */
+.done-emoji { font-size: 64px; margin-bottom: 16px; }
+.done-score { font-size: 52px; font-weight: 900; background: linear-gradient(135deg, var(--blue), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+/* SWIPE CARD */
+.swipe-card { background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.1); border-radius: 24px; padding: 28px 24px; min-height: 200px; display: flex; flex-direction: column; justify-content: center; touch-action: pan-y; cursor: grab; transition: transform 0.1s; user-select: none; }
+.swipe-hint { display: flex; justify-content: space-between; margin-top: 12px; }
+.swipe-hint span { font-size: 12px; color: #64748b; }
+
+/* RESPONSIVE */
+@media (max-width: 360px) {
+  .menu-grid { grid-template-columns: 1fr; }
+  .candy-cell { font-size: 10px; min-height: 48px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== MENU ===== -->
+<div id="screen-menu" class="screen active">
+<div class="wrap">
+  <div class="app-header">
+    <div class="app-logo">🧠</div>
+    <div class="app-title">CyberEgzamin</div>
+    <div class="app-sub">Przygotowanie do obrony • UKSW</div>
+    <div><div class="progress-pill"><span id="known-count">0</span> / 40 pytań opanowanych</div></div>
+  </div>
+
+  <div class="filter-row">
+    <button class="fpill on" onclick="setFilter('all',this)">Wszystkie</button>
+    <button class="fpill off" onclick="setFilter('switala',this)">Dr Świtała</button>
+    <button class="fpill off" onclick="setFilter('general',this)">Ogólne</button>
+    <button class="fpill off" onclick="setFilter('unknown',this)">Do nauczenia</button>
+  </div>
+
+  <div class="section-label">Nauka</div>
+  <div class="menu-grid mb16">
+    <button class="menu-card big" onclick="startFlashcard()" style="border-color:rgba(79,142,247,0.3);">
+      <div class="menu-icon">🃏</div>
+      <div><div class="menu-card-title">Fiszki</div><div class="menu-card-sub">Przeglądaj pytania</div></div>
+      <div class="accent-bar" style="background:var(--blue);"></div>
+    </button>
+    <button class="menu-card big" onclick="startQuiz()" style="border-color:rgba(155,110,247,0.3);">
+      <div class="menu-icon">📝</div>
+      <div><div class="menu-card-title">Quiz</div><div class="menu-card-sub">Wpisz odpowiedź</div></div>
+      <div class="accent-bar" style="background:var(--purple);"></div>
+    </button>
+  </div>
+
+  <div class="section-label">Mini gry</div>
+  <div class="menu-grid mb16">
+    <button class="menu-card big" onclick="startStreak()" style="border-color:rgba(247,195,79,0.3);">
+      <div class="menu-icon">🔥</div>
+      <div><div class="menu-card-title">Passa</div><div class="menu-card-sub">Ile utrzymasz?</div></div>
+      <div class="accent-bar" style="background:var(--yellow);"></div>
+    </button>
+    <button class="menu-card big" onclick="startSpeed()" style="border-color:rgba(247,131,79,0.3);">
+      <div class="menu-icon">⚡</div>
+      <div><div class="menu-card-title">Na czas</div><div class="menu-card-sub">10 pytań, liczy się czas</div></div>
+      <div class="accent-bar" style="background:var(--orange);"></div>
+    </button>
+    <button class="menu-card big" onclick="startTF()" style="border-color:rgba(62,214,160,0.3);">
+      <div class="menu-icon">🆚</div>
+      <div><div class="menu-card-title">Prawda/Fałsz</div><div class="menu-card-sub">Szybkie decyzje</div></div>
+      <div class="accent-bar" style="background:var(--green);"></div>
+    </button>
+    <button class="menu-card big" onclick="startWheel()" style="border-color:rgba(247,94,142,0.3);">
+      <div class="menu-icon">🎰</div>
+      <div><div class="menu-card-title">Koło fortuny</div><div class="menu-card-sub">Losowe pytanie</div></div>
+      <div class="accent-bar" style="background:var(--pink);"></div>
+    </button>
+  </div>
+
+  <div class="section-label">Gry</div>
+  <div class="menu-grid mb16">
+    <button class="menu-card big" onclick="startCandy()" style="border-color:rgba(79,142,247,0.3);grid-column:1/-1;">
+      <div class="menu-icon">🔗</div>
+      <div><div class="menu-card-title">Dopasuj pary</div><div class="menu-card-sub">Połącz pojęcie z definicją</div></div>
+      <div class="accent-bar" style="background:var(--blue);"></div>
+    </button>
+  </div>
+
+  <div class="section-label">Obrona</div>
+  <div class="menu-grid full mb16">
+    <button class="menu-card" onclick="startSimulation()">
+      <div class="menu-icon">🎯</div>
+      <div><div class="menu-card-title">Symulacja obrony</div><div class="menu-card-sub">3 losowe pytania jak na prawdziwej obronie</div></div>
+      <span style="color:#475569;margin-left:auto;">→</span>
+    </button>
+    <button class="menu-card" onclick="showProgress()">
+      <div class="menu-icon">📊</div>
+      <div><div class="menu-card-title">Mój postęp</div><div class="menu-card-sub" id="progress-sub">0/40 opanowanych</div></div>
+      <span style="color:#475569;margin-left:auto;">→</span>
+    </button>
+  </div>
+</div>
+</div>
+
+<!-- ===== FLASHCARD ===== -->
+<div id="screen-flashcard" class="screen">
+<div class="topbar"><button class="back-btn" onclick="goMenu()">← Powrót</button><span style="color:#475569;font-size:13px;" id="fc-counter"></span></div>
+<div class="wrap">
+  <div class="card mb12">
+    <div class="label label-blue" id="fc-type"></div>
+    <div style="font-size:16px;font-weight:600;line-height:1.5;color:#1e293b;" id="fc-question"></div>
+    <div class="sep"></div>
+    <div class="hint-text" id="fc-hint"></div>
+    <div id="fc-ans-wrap" style="display:none;">
+      <div class="label label-green mb8">Odpowiedź</div>
+      <div class="answer-text" id="fc-answer"></div>
+    </div>
+  </div>
+  <div id="fc-btn1"><button class="btn btn-purple" onclick="fcShow()">Pokaż odpowiedź</button></div>
+  <div id="fc-btn2" class="btn-row mt12" style="display:none;">
+    <button class="btn btn-red-soft" onclick="fcRate(false)">😅 Nie wiem</button>
+    <button class="btn btn-green-soft" onclick="fcRate(true)">✅ Wiem!</button>
+  </div>
+</div>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="screen-quiz" class="screen">
+<div class="topbar"><button class="back-btn" onclick="goMenu()">← Powrót</button><span style="color:#475569;font-size:13px;" id="quiz-counter"></span></div>
+<div class="wrap">
+  <div class="card mb12">
+    <div class="label label-purple" id="quiz-type"></div>
+    <div style="font-size:16px;font-weight:600;line-height:1.5;color:#1e293b;" id="quiz-question"></div>
+  </div>
+  <div id="quiz-input">
+    <textarea id="quiz-ta" placeholder="Wpisz swoją odpowiedź..."></textarea>
+    <button class="btn btn-purple mt12" onclick="quizCheck()">Sprawdź →</button>
+  </div>
+  <div id="quiz-result" style="display:none;">
+    <div class="answer-box mb12">
+      <div class="label label-green mb8">Wzorcowa odpowiedź</div>
+      <div class="answer-text" id="quiz-ans"></div>
+    </div>
+    <p style="color:#475569;font-size:13px;margin-bottom:10px;">Jak Ci poszło?</p>
+    <div class="btn-row">
+      <button class="btn btn-red-soft" onclick="quizRate(false)">😅 Nie umiałam</button>
+      <button class="btn btn-green-soft" onclick="quizRate(true)">✅ Umiałam!</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ===== SIMULATION ===== -->
+<div id="screen-sim" class="screen">
+<div class="topbar"><button class="back-btn" onclick="goMenu()">← Wyjdź</button><span style="color:#475569;font-size:13px;" id="sim-counter"></span></div>
+<div class="wrap">
+  <div class="center mb16">
+    <div class="label label-pink center">🎓 Symulacja obrony</div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;" id="sim-dots"></div>
+  </div>
+  <div class="card" style="border-color:rgba(247,94,142,0.2);margin-bottom:12px;">
+    <div class="label label-pink" id="sim-type"></div>
+    <div style="font-size:16px;font-weight:600;line-height:1.5;color:#1e293b;" id="sim-question"></div>
+  </div>
+  <div id="sim-input">
+    <textarea id="sim-ta" placeholder="Odpowiedz jak na obronie..."></textarea>
+    <button class="btn btn-pink mt12" onclick="simCheck()">Dalej →</button>
+  </div>
+  <div id="sim-result" style="display:none;">
+    <div class="answer-box mb12">
+      <div class="label label-green mb8">Wzorcowa odpowiedź</div>
+      <div class="answer-text" id="sim-ans"></div>
+    </div>
+    <button class="btn btn-pink" id="sim-next-btn" onclick="simNext()"></button>
+  </div>
+</div>
+</div>
+
+<div id="screen-sim-done" class="screen" style="justify-content:center;">
+<div class="wrap center">
+  <div class="done-emoji">🎉</div>
+  <h2 style="margin-bottom:8px;">Symulacja zakończona!</h2>
+  <p style="color:#475569;margin-bottom:24px;">Odpowiedziałaś na 3 pytania jak na obronie. Brawo!</p>
+  <div class="gap10"><button class="btn btn-pink" onclick="startSimulation()">🎯 Jeszcze raz</button><button class="btn btn-ghost" onclick="goMenu()">Menu</button></div>
+</div>
+</div>
+
+<!-- ===== STREAK ===== -->
+<div id="screen-streak" class="screen">
+<div class="topbar"><button class="back-btn" onclick="goMenu()">← Powrót</button><div class="streak-badge">🔥 <span id="streak-count">0</span></div></div>
+<div class="wrap">
+  <div class="card mb12">
+    <div class="label label-yellow" id="streak-type"></div>
+    <div style="font-size:16px;font-weight:600;line-height:1.5;color:#1e293b;margin-bottom:12px;" id="streak-question"></div>
+    <div class="hint-text" id="streak-hint"></div>
+  </div>
+  <div id="streak-input">
+    <textarea id="streak-ta" placeholder="Wpisz odpowiedź..."></textarea>
+    <button class="btn btn-yellow mt12" onclick="streakCheck()" style="color:#0d0d1a;">Sprawdź 🔥</button>
+  </div>
+  <div id="streak-result" style="display:none;">
+    <div class="answer-box mb12">
+      <div class="label label-green mb8">Wzorcowa odpowiedź</div>
+      <div class="answer-text" id="streak-ans"></div>
+    </div>
+    <p style="color:#475569;font-size:13px;margin-bottom:10px;">Czy umiałaś?</p>
+    <div class="btn-row">
+      <button class="btn btn-red-soft" onclick="streakRate(false)">💀 Nie – passa zeruje się!</button>
+      <button class="btn btn-green-soft" onclick="streakRate(true)">🔥 Tak! Passa rośnie!</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="screen-streak-done" class="screen" style="justify-content:center;">
+<div class="wrap center">
+  <div class="done-emoji">💀</div>
+  <div class="done-score" id="streak-final-score"></div>
+  <div class="score-label">passa z rzędu!</div>
+  <p style="color:#475569;margin:16px 0 24px;" id="streak-msg"></p>
+  <div class="gap10"><button class="btn btn-yellow" onclick="startStreak()" style="color:#0d0d1a;">🔥 Spróbuj znowu</button><button class="btn btn-ghost" onclick="goMenu()">Menu</button></div>
+</div>
+</div>
+
+<!-- ===== SPEED QUIZ ===== -->
+<div id="screen-speed" class="screen">
+<div class="topbar"><button class="back-btn" onclick="goMenu()">← Powrót</button><div style="display:flex;align-items:center;gap:10px;"><span style="color:#475569;font-size:13px;" id="speed-counter"></span><div class="timer-ring"><svg width="40" height="40"><circle cx="20" cy="20" r="17" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="3"/><circle id="speed-ring" cx="20" cy="20" r="17" fill="none" stroke="var(--orange)" stroke-width="3" stroke-dasharray="107" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 20 20)"/></svg><span class="timer-num" id="speed-timer" style="color:var(--orange);">15</span></div></div></div>
+<div class="wrap">
+  <div class="card mb12">
+    <div class="label label-orange" id="speed-type"></div>
+    <div style="font-size:15px;font-weight:600;line-height:1.5;color:#1e293b;" id="speed-question"></div>
+  </div>
+  <div id="speed-opts" class="gap10"></div>
+  <div id="speed-next" style="display:none;margin-top:12px;">
+    <div class="answer-box mb12">
+      <div class="label label-green mb8">Pełna odpowiedź</div>
+      <div class="answer-text" id="speed-full-ans"></div>
+    </div>
+    <button class="btn btn-orange" onclick="speedNext()">Następne →</button>
+  </div>
+</div>
+</div>
+
+<div id="screen-speed-done" class="screen" style="justify-content:center;">
+<div class="wrap center">
+  <div class="done-emoji">⚡</div>
+  <div class="done-score"><span id="speed-final">0</span>/10</div>
+  <div class="score-label">poprawnych odpowiedzi</div>
+  <p style="color:#475569;margin:16px 0 24px;" id="speed-msg"></p>
+  <div class="gap10"><button class="btn btn-orange" onclick="startSpeed()">⚡ Zagraj znowu</button><button class="btn btn-ghost" onclick="goMenu()">Menu</button></div>
+</div>
+</div>
+
+<!-- ===== TRUE/FALSE ===== -->
+<div id="screen-tf" class="screen">
+<div class="topbar"><button class="back-btn" onclick="goMenu()">← Powrót</button><span style="color:#475569;font-size:13px;" id="tf-counter"></span></div>
+<div class="wrap">
+  <div class="card mb16" style="min-height:140px;">
+    <div class="label label-green mb8">Prawda czy Fałsz?</div>
+    <div style="font-size:15px;font-weight:600;line-height:1.6;color:#1e293b;" id="tf-statement"></div>
+  </div>
+  <div class="btn-row mb12" id="tf-btns">
+    <button class="tf-btn tf-true" onclick="tfAnswer(true)">✅ PRAWDA</button>
+    <button class="tf-btn tf-false" onclick="tfAnswer(false)">❌ FAŁSZ</button>
+  </div>
+  <div id="tf-feedback" style="display:none;">
+    <div class="answer-box mb12">
+      <div class="label label-green mb8">Wyjaśnienie</div>
+      <div class="answer-text" id="tf-explain"></div>
+    </div>
+    <button class="btn btn-green" onclick="tfNext()" style="color:#0d0d1a;">Następne →</button>
+  </div>
+  <div style="display:flex;justify-content:space-between;color:#64748b;font-size:13px;margin-top:8px;">
+    <span>✅ <span id="tf-correct">0</span> poprawnych</span>
+    <span>❌ <span id="tf-wrong">0</span> błędnych</span>
+  </div>
+</div>
+</div>
+
+<!-- ===== WHEEL ===== -->
+<div id="screen-wheel" class="screen">
+<div class="topbar"><button class="back-btn" onclick="goMenu()">← Powrót</button><span style="color:#64748b;font-size:13px;">Koło fortuny</span></div>
+<div class="wrap center">
+  <canvas id="wheel-canvas" width="300" height="300"></canvas>
+  <button class="btn btn-pink mt16 mb16" id="wheel-spin-btn" onclick="spinWheel()">🎰 Zakręć!</button>
+  <div id="wheel-result" style="display:none;" class="card">
+    <div class="label label-pink mb8" id="wheel-topic"></div>
+    <div style="font-size:15px;font-weight:600;line-height:1.5;color:#1e293b;margin-bottom:12px;" id="wheel-question"></div>
+    <div class="sep"></div>
+    <div id="wheel-ans-wrap" style="display:none;">
+      <div class="label label-green mb8">Odpowiedź</div>
+      <div class="answer-text" id="wheel-answer"></div>
+    </div>
+    <div id="wheel-ans-btn"><button class="btn btn-ghost btn-sm mt8" onclick="wheelShowAns()">Pokaż odpowiedź</button></div>
+  </div>
+</div>
+</div>
+
+<!-- ===== DOPASUJ PARY ===== -->
+<div id="screen-candy" class="screen">
+<div class="topbar"><button class="back-btn" onclick="goMenu()">← Powrót</button><span style="color:#475569;font-size:13px;">Para <span id="candy-pairs">0</span>/6</span></div>
+<div class="wrap">
+  <div style="background:rgba(79,142,247,0.08);border:1px solid rgba(79,142,247,0.2);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#475569;text-align:center;">
+    Wybierz <strong style="color:var(--blue);">pojęcie</strong> i pasującą <strong style="color:var(--purple);">definicję</strong>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--blue);text-align:center;padding:4px;">Pojęcia</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--purple);text-align:center;padding:4px;">Definicje</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="candy-board"></div>
+  <div id="candy-msg-area" style="text-align:center;margin-top:10px;min-height:22px;font-size:13px;font-weight:600;"></div>
+</div>
+</div>
+
+<div id="screen-candy-done" class="screen" style="justify-content:center;">
+<div class="wrap center">
+  <div style="font-size:60px;margin-bottom:16px;">🔗</div>
+  <div style="font-size:52px;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="candy-final-score"></div>
+  <div style="color:#475569;font-size:14px;margin-top:4px;">punktów</div>
+  <p style="color:#475569;margin:16px 0 24px;" id="candy-final-msg"></p>
+  <div style="display:flex;flex-direction:column;gap:10px;">
+    <button class="btn btn-blue" onclick="startCandy()">🔗 Zagraj znowu</button>
+    <button class="btn btn-ghost" onclick="goMenu()">Menu</button>
+  </div>
+</div>
+</div>
+
+<!-- ===== PROGRESS ===== -->
+<div id="screen-progress" class="screen">
+<div class="topbar"><button class="back-btn" onclick="goMenu()">← Powrót</button><span style="color:#475569;font-size:13px;">Postęp</span></div>
+<div class="wrap">
+  <div class="prog-grid" id="prog-stats"></div>
+  <div id="prog-list"></div>
+</div>
+</div>
+
+<script>
+// ===== DATA =====
+const SWITALA = [
+  {id:"s1",topic:"Usługi zaufania",question:"Czym są usługi zaufania? Podaj przykłady.",hint:"Rozporządzenie eIDAS, podpis elektroniczny, pieczęć, znacznik czasu...",answer:"Usługi zaufania to elektroniczne usługi świadczone odpłatnie, które zwiększają bezpieczeństwo transakcji elektronicznych. Reguluje je rozporządzenie eIDAS.\n\nPrzykłady:\n• Kwalifikowany podpis elektroniczny\n• Kwalifikowana pieczęć elektroniczna\n• Kwalifikowany znacznik czasu\n• Kwalifikowane doręczenie elektroniczne\n• Uwierzytelnianie witryn (certyfikaty SSL/TLS)",keywords:["eIDAS","podpis","pieczęć","znacznik","zaufanie"]},
+  {id:"s2",topic:"Podpis elektroniczny",question:"Czym jest podpis elektroniczny i gdzie się go stosuje?",hint:"Trzy rodzaje: zwykły, zaawansowany, kwalifikowany (równoważny własnoręcznemu).",answer:"Podpis elektroniczny to dane w postaci elektronicznej dołączone do innych danych, służące do identyfikacji podpisującego (eIDAS).\n\nRodzaje:\n• Zwykły – skan podpisu, imię w mailu\n• Zaawansowany – powiązany z podpisującym\n• Kwalifikowany – równoważny własnoręcznemu\n\nZastosowanie: umowy, dokumenty urzędowe, ePUAP.",keywords:["kwalifikowany","zaawansowany","eIDAS","identyfikacja","ePUAP"]},
+  {id:"s3",topic:"Projekty",question:"Co to jest projekt i jakie znasz metodyki zarządzania projektami?",hint:"Cel, czas, budżet. PRINCE2, Scrum, Waterfall.",answer:"Projekt to tymczasowe przedsięwzięcie mające określony cel, budżet i czas.\n\nMetodyki:\n• PRINCE2 – procesowa, dokumentacyjna, 7 zasad/tematów/procesów\n• Scrum (Agile) – iteracyjna, sprint 2-4 tygodnie\n• Waterfall – liniowa, każda faza po kolei\n\nCykl życia: inicjacja → planowanie → realizacja → monitorowanie → zamknięcie",keywords:["PRINCE2","Scrum","Waterfall","sprint","iteracja"]},
+  {id:"s4",topic:"Dane osobowe",question:"Podaj definicję danych osobowych.",hint:"RODO art. 4, osoba fizyczna, zidentyfikowana lub możliwa do zidentyfikowania.",answer:"Dane osobowe (art. 4 RODO) to wszelkie informacje dotyczące zidentyfikowanej lub możliwej do zidentyfikowania osoby fizycznej.\n\nIdentyfikacja bezpośrednia lub pośrednia: imię, PESEL, adres IP, dane lokalizacyjne.\n\nWażne: tylko osoby fizyczne, nie firmy.",keywords:["RODO","fizyczna","identyfikacja","PESEL","IP"]},
+  {id:"s5",topic:"Szczególne kategorie danych",question:"Czym są szczególne kategorie danych osobowych?",hint:"Art. 9 RODO. Przetwarzanie co do zasady zakazane. 8 kategorii.",answer:"Szczególne kategorie danych (art. 9 RODO) – przetwarzanie co do zasady zakazane:\n\n• Pochodzenie rasowe lub etniczne\n• Poglądy polityczne\n• Przekonania religijne\n• Przynależność do związków zawodowych\n• Dane genetyczne\n• Dane biometryczne\n• Dane dotyczące zdrowia\n• Życie seksualne / orientacja seksualna",keywords:["wrażliwe","rasowe","genetyczne","biometryczne","zdrowie"]},
+  {id:"s6",topic:"Administrator",question:"Kim jest administrator danych osobowych?",hint:"Decyduje PO CO i JAK przetwarzane są dane. Art. 4 RODO.",answer:"Administrator (art. 4 RODO) to podmiot, który samodzielnie lub wspólnie z innymi ustala cele i sposoby przetwarzania danych osobowych.\n\nDecyduje: PO CO (cel) i JAK (sposób).\n\nPonosi odpowiedzialność za zgodność z RODO.",keywords:["cel","sposób","odpowiedzialność","RODO","podmiot"]},
+  {id:"s7",topic:"Przetwarzanie",question:"Co oznacza pojęcie przetwarzania danych osobowych?",hint:"Art. 4 RODO. Każda operacja – zbieranie, przechowywanie, usuwanie...",answer:"Przetwarzanie (art. 4 RODO) to każda operacja na danych osobowych – zautomatyzowana lub nie.\n\nObejmuje: zbieranie, utrwalanie, przechowywanie, modyfikowanie, ujawnianie, usuwanie, niszczenie.\n\nPraktycznie każda czynność z danymi to przetwarzanie.",keywords:["operacja","zbieranie","przechowywanie","usuwanie","zautomatyzowane"]},
+  {id:"s8",topic:"Zasada rozliczalności",question:"Na czym polega zasada rozliczalności w RODO?",hint:"Art. 5 ust. 2. Administrator musi nie tylko przestrzegać, ale udowodnić że przestrzega.",answer:"Zasada rozliczalności (art. 5 ust. 2 RODO) – administrator odpowiada za przestrzeganie zasad i musi być w stanie to wykazać.\n\nW praktyce: rejestry czynności, polityki ochrony, szkolenia, DPIA.\n\nCiężar dowodu spoczywa na administratorze.",keywords:["rozliczalność","dowód","rejestry","DPIA","wykazać"]},
+  {id:"s9",topic:"Prawa podmiotów danych",question:"Jakie prawa przysługują osobom, których dane są przetwarzane?",hint:"Dostęp, sprostowanie, usunięcie, ograniczenie, przenoszenie, sprzeciw...",answer:"Prawa podmiotów danych:\n• Dostęp – wiem jakie dane są przetwarzane\n• Sprostowanie – poprawiam błędne dane\n• Usunięcie – prawo do bycia zapomnianym\n• Ograniczenie przetwarzania\n• Przenoszenie danych\n• Sprzeciw wobec przetwarzania\n• Prawa wobec profilowania",keywords:["dostęp","usunięcie","sprostowanie","przenoszenie","sprzeciw"]},
+  {id:"s10",topic:"Informacja publiczna",question:"Czym jest informacja publiczna?",hint:"Ustawa z 2001 r. Każdy może pytać bez uzasadnienia. BIP.",answer:"Informacja publiczna to każda informacja o sprawach publicznych (ustawa o dostępie do informacji publicznej 2001).\n\nKażdemu przysługuje prawo dostępu – bez uzasadnienia.\n\nFormy: BIP, na wniosek, wstęp na posiedzenia.\nOgraniczenia: tajemnica państwowa, prywatność.",keywords:["BIP","publiczna","wniosek","dostęp","jawność"]},
+  {id:"s11",topic:"System teleinformatyczny",question:"Co to jest system teleinformatyczny?",hint:"Ustawa o KSC. Sprzęt + oprogramowanie + sieć telekomunikacyjna.",answer:"System teleinformatyczny to zespół urządzeń informatycznych i oprogramowania zapewniający przetwarzanie i przesyłanie danych przez sieci telekomunikacyjne.\n\nDef. z ustawy o KSC.\n\nRóżnica od systemu informatycznego: ma komponent telekomunikacyjny.",keywords:["KSC","sieć","telekomunikacja","przesyłanie","oprogramowanie"]},
+  {id:"s12",topic:"System informacyjny",question:"Czym jest system informacyjny?",hint:"Szersze pojęcie niż teleinformatyczny. Może być manualny lub zautomatyzowany.",answer:"System informacyjny to zestaw elementów służących do zbierania, przechowywania, przetwarzania i przekazywania informacji.\n\nMoże być manualny lub zautomatyzowany.\n\nZależność: teleinformatyczny ⊂ informatyczny ⊂ informacyjny",keywords:["informacyjny","informatyczny","manualny","zautomatyzowany","hierarchia"]},
+  {id:"s13",topic:"Cyberbezpieczeństwo",question:"Czym jest cyberbezpieczeństwo?",hint:"Ustawa o KSC. Triada CIA: poufność, integralność, dostępność.",answer:"Cyberbezpieczeństwo (ustawa o KSC) to odporność systemów na działania naruszające poufność, integralność, dostępność i autentyczność danych.\n\nTriada CIA:\n• Confidentiality – poufność\n• Integrity – integralność\n• Availability – dostępność\n\nW Polsce: KSC, CERT Polska.",keywords:["CIA","poufność","integralność","dostępność","CERT"]},
+  {id:"s14",topic:"Ryzyko",question:"Czym jest ryzyko w kontekście ochrony danych?",hint:"Prawdopodobieństwo × Skutek. DPIA – ocena skutków dla ochrony danych.",answer:"Ryzyko = Prawdopodobieństwo × Skutek\n\nW kontekście RODO: ryzyko naruszenia praw i wolności osób fizycznych.\n\nZarządzanie: identyfikacja → ocena → postępowanie → monitorowanie.\n\nDPIA (Data Protection Impact Assessment) – ocena skutków, obowiązkowa przy wysokim ryzyku.",keywords:["prawdopodobieństwo","skutek","DPIA","ocena","zarządzanie"]},
+  {id:"s15",topic:"Zabezpieczenie",question:"Co to jest zabezpieczenie danych? Jakie są rodzaje?",hint:"Techniczne i organizacyjne. Adekwatne do ryzyka (RODO).",answer:"Zabezpieczenie to środki techniczne i organizacyjne chroniące dane przed nieuprawnioną utratą lub dostępem.\n\nTechniczne: szyfrowanie, 2FA, firewall, backup, pseudonimizacja.\n\nOrganizacyjne: polityki, szkolenia, kontrola dostępu, procedury incydentów.\n\nZasada RODO: adekwatne do ryzyka.",keywords:["szyfrowanie","backup","2FA","polityki","pseudonimizacja"]}
+];
+
+const GENERAL = [
+  {id:"g1",topic:"Informacja i przestępstwa",question:"Co to jest informacja? Cechy informacji chronionej i przestępstwa.",hint:"Zmniejsza niepewność. Art. 265-269 kk: hacking, niszczenie danych...",answer:"Informacja to treść komunikatu zmniejszająca niepewność odbiorcy.\n\nCechy informacji chronionej:\n• Poufność, Integralność, Dostępność\n\nPrzestępstwa (kk 265-269):\n• Ujawnienie tajemnicy (265)\n• Hacking – nieautoryzowany dostęp (267)\n• Niszczenie danych (268a)\n• Zakłócanie systemu (269a)",keywords:["poufność","integralność","hacking","tajemnica","przestępstwo"]},
+  {id:"g2",topic:"Web 2.0",question:"Co to jest Web 2.0?",hint:"Druga generacja internetu. User-generated content. Media społecznościowe.",answer:"Web 2.0 to druga generacja internetu z aktywnym udziałem użytkowników w tworzeniu treści.\n\nCechy: interaktywność, media społecznościowe, blogi, wiki, współdzielenie treści.\n\nWeb 1.0 = tylko czytasz. Web 2.0 = tworzysz i uczestniczysz. Web3 = decentralizacja.",keywords:["interaktywność","social","wiki","blogi","UGC"]},
+  {id:"g3",topic:"Odpowiedzialność platform",question:"Czy platformy odpowiadają za treści użytkowników?",hint:"Safe harbour, DSA, notice and takedown.",answer:"Co do zasady NIE – korzystają z wyłączenia (safe harbour), jeśli nie mają wiedzy i reagują na zgłoszenia.\n\nPodstawy: dyrektywa e-commerce, DSA (2022).\n\nDSA: usuwanie nielegalnych treści, transparentność algorytmów, zakaz reklam targetowanych dla dzieci.",keywords:["safe harbour","DSA","notice","platforma","treści"]},
+  {id:"g4",topic:"Społeczeństwo sieciowe",question:"Czym jest społeczeństwo sieciowe?",hint:"Manuel Castells, trylogia Wiek informacji. Sieć zamiast hierarchii.",answer:"Społeczeństwo sieciowe to typ społeczeństwa, w którym sieć jest dominującą strukturą organizacyjną.\n\nManuel Castells (Wiek informacji): dominacja przepływów nad miejscami, globalna gospodarka sieciowa.\n\nInni: Yochai Benkler, Jan van Dijk.",keywords:["Castells","sieć","przepływy","informacja","globalna"]},
+  {id:"g5",topic:"PRINCE2",question:"Czym charakteryzuje się metodyka PRINCE2?",hint:"Procesowa. 7 zasad, 7 tematów, 7 procesów. Uzasadnienie biznesowe.",answer:"PRINCE2 to procesowa metodyka zarządzania projektami.\n\n3 elementy × 7:\n• 7 zasad (m.in. ciągłe uzasadnienie biznesowe)\n• 7 tematów (m.in. ryzyko, jakość, plany)\n• 7 procesów (od przygotowania do zamknięcia)\n\nCecha: jeśli projekt traci uzasadnienie biznesowe – należy go zakończyć.",keywords:["procesowa","uzasadnienie","biznesowe","zasady","tematy"]},
+  {id:"g6",topic:"Ewaluacja vs Audyt",question:"Różnica między ewaluacją a audytem?",hint:"Cel, dane, konsekwencje. Audyt = zgodność. Ewaluacja = efektywność.",answer:"Audyt: sprawdza zgodność z przepisami; dane obiektywne; konsekwencje formalne.\n\nEwaluacja: ocenia wartość i efektywność; dane jakościowe i ilościowe; wnioski do poprawy.\n\nAudyt pyta: 'czy zgodnie z regułami?'\nEwaluacja pyta: 'czy działa i czy warto?'",keywords:["zgodność","efektywność","jakościowe","formalne","wartość"]},
+  {id:"g7",topic:"Cyberbullying",question:"Jakie zagrożenia cyberprzestrzenne znasz? Scharakteryzuj cyberbullying.",hint:"Phishing, malware, DDoS... Cyberbullying: celowe, powtarzające się nękanie online.",answer:"Zagrożenia: phishing, malware, ransomware, DDoS, hacking, stalking, dezinformacja.\n\nCyberbullying: celowe, powtarzające się nękanie za pomocą technologii cyfrowych.\nFormy: obraźliwe treści, kompromitujące zdjęcia, wykluczanie.\nOfiary: głównie dzieci i młodzież.\nSkutki: depresja, lęk.",keywords:["phishing","nękanie","dzieci","powtarzające","online"]},
+  {id:"g8",topic:"Zbrodnia i Występek",question:"Podaj definicję zbrodni i występku.",hint:"Art. 7 kk. Różnica: dolna granica kary. Zbrodnia min. 3 lata.",answer:"Art. 7 Kodeksu karnego:\n\nZbrodnia: kara min. 3 lata pozbawienia wolności; tylko umyślna; np. zabójstwo, rozbój.\n\nWystępek: kara od miesiąca pozbawienia wolności lub grzywna; umyślna lub nieumyślna; np. kradzież, oszustwo.",keywords:["zbrodnia","występek","umyślna","kara","kodeks"]},
+  {id:"g9",topic:"Stopa bezrobocia",question:"Stopa bezrobocia w Polsce i UE.",hint:"GUS vs BAEL (Eurostat). Polska ~3% – jedna z najniższych w UE.",answer:"Stopa bezrobocia = udział bezrobotnych w aktywnych zawodowo.\n\nPolska: ~3% (BAEL) – jedna z najniższych w UE.\nŚrednia UE: ~6%.\nNajwyższe: Hiszpania, Grecja (~12-13%).\n\nRodzaje: strukturalne, frykcyjne, cykliczne.",keywords:["BAEL","GUS","Eurostat","strukturalne","frykcyjne"]},
+  {id:"g10",topic:"Struktura i stratyfikacja",question:"Opisz strukturę społeczną i stratyfikację.",hint:"Struktura = układ elementów. Stratyfikacja = uwarstwienie. Marks, Weber.",answer:"Struktura społeczna: układ grup, instytucji, ról i relacji tworzących społeczeństwo.\n\nStratyfikacja: hierarchiczny podział na warstwy wg dostępu do zasobów.\n\nSystemy: kasty, stany, klasy.\nMarks: klasy wg środków produkcji. Weber: klasa + status + partia.",keywords:["hierarchia","klasy","Marks","Weber","warstwy"]},
+  {id:"g11",topic:"Zgoda w RODO",question:"Jak RODO definiuje zgodę? Warunki wyrażenia.",hint:"Dobrowolna, konkretna, świadoma, jednoznaczna. Nie domniemana.",answer:"Zgoda (art. 4 pkt 11 RODO): dobrowolne, konkretne, świadome i jednoznaczne okazanie woli.\n\nWarunki: dobrowolność, konkretność, świadomość, jednoznaczność (nie milcząca).\n\nWycofanie: równie łatwe jak wyrażenie. Dzieci <16 lat: zgoda rodziców.",keywords:["dobrowolna","konkretna","świadoma","jednoznaczna","wycofanie"]},
+  {id:"g12",topic:"Administracja i prawo",question:"Co znaczy, że administracja działa na podstawie prawa i w jego granicach?",hint:"Zasada legalizmu. Art. 7 Konstytucji RP.",answer:"Zasada legalizmu (art. 7 Konstytucji): organy władzy działają na podstawie i w granicach prawa.\n\n'Na podstawie' = potrzebuje upoważnienia ustawowego.\n'W granicach' = nie może przekraczać kompetencji.\n\nNaruszenie = nieważność aktu.",keywords:["legalizm","Konstytucja","upoważnienie","kompetencje","nieważność"]},
+  {id:"g13",topic:"Utwór",question:"Czym jest utwór w prawie autorskim?",hint:"Art. 1 ustawy o prawie autorskim. Twórczość + indywidualność + ustalenie.",answer:"Utwór (art. 1 ustawy o prawie autorskim) to przejaw działalności twórczej o indywidualnym charakterze, ustalony w jakiejkolwiek postaci.\n\nCechy: twórczość, indywidualny charakter, ustalenie.\n\nNie są utworami: idee, fakty, dane. Ochrona automatyczna.",keywords:["twórczość","indywidualny","ustalenie","ochrona","autorskie"]},
+  {id:"g14",topic:"UML",question:"Co to jest UML? Grupy i przykłady diagramów.",hint:"Unified Modeling Language. Dwie grupy: struktury i zachowania.",answer:"UML (Unified Modeling Language) to standaryzowany język modelowania systemów IT.\n\nDiagramy struktury: klas, obiektów, komponentów, wdrożenia.\n\nDiagramy zachowania: przypadków użycia, sekwencji, aktywności, stanów.",keywords:["diagram","struktury","zachowania","klasy","sekwencji"]},
+  {id:"g15",topic:"Przedsiębiorca",question:"Podaj definicję przedsiębiorcy.",hint:"Prawo przedsiębiorców 2018. Zarobkowa, zorganizowana, ciągła, we własnym imieniu.",answer:"Przedsiębiorca (Prawo przedsiębiorców 2018): osoba fizyczna, prawna lub jednostka organizacyjna wykonująca działalność gospodarczą.\n\nDziałalność gospodarcza: zarobkowa, zorganizowana, ciągła, we własnym imieniu.\n\nMikro (<9 pracowników), Mały (<49), Średni (<249), Duży (>249).",keywords:["zarobkowa","zorganizowana","ciągła","mikro","gospodarcza"]},
+  {id:"g16",topic:"Pieniądz elektroniczny",question:"Czym jest pieniądz elektroniczny?",hint:"Ustawa o usługach płatniczych. Wartość pieniężna. Nie kryptowaluta!",answer:"Pieniądz elektroniczny: wartość pieniężna przechowywana elektronicznie, wydana w zamian za środki pieniężne, do transakcji płatniczych.\n\nPrzykłady: przedpłacone karty, PayPal.\n\nNIE jest kryptowalutą – denominowany w walucie tradycyjnej.",keywords:["elektroniczny","wartość","płatnicze","prepaid","waluta"]},
+  {id:"g17",topic:"Usługa społeczeństwa informacyjnego",question:"Czym jest usługa społeczeństwa informacyjnego?",hint:"Elektroniczna, na odległość, na żądanie. Dyrektywa e-commerce.",answer:"Usługa społeczeństwa informacyjnego: świadczona drogą elektroniczną, na odległość, na indywidualne żądanie.\n\nPodstawa: dyrektywa 98/34/WE.\n\nPrzykłady: sklepy online, streaming, hosting, poczta e-mail.\nNie: telewizja tradycyjna.",keywords:["elektroniczna","odległość","żądanie","streaming","hosting"]},
+  {id:"g18",topic:"Zdolność prawna",question:"Omów zdolność prawną i zdolność do czynności prawnych.",hint:"Prawna: od urodzenia. Do czynności: pełna od 18 lat, ograniczona 13-18 lat.",answer:"Zdolność prawna: możność posiadania praw – od urodzenia, wszyscy ją mają.\n\nZdolność do czynności prawnych: możność samodzielnego działania prawnego.\n• Pełna: od 18 lat\n• Ograniczona: 13-18 lat\n• Brak: poniżej 13 lat, ubezwłasnowolnieni",keywords:["urodzenie","czynności","pełna","ograniczona","ubezwłasnowolnienie"]},
+  {id:"g19",topic:"Projekt informatyczny",question:"Co to jest projekt informatyczny? Cykl życia i 3 metodyki.",hint:"Agile/Scrum, Waterfall, PRINCE2. 5 faz cyklu życia.",answer:"Projekt informatyczny: tymczasowe przedsięwzięcie tworzące system IT.\n\nCykl życia: inicjacja → planowanie → realizacja → monitorowanie → zamknięcie.\n\nMetodyki: Waterfall (liniowa), Scrum (iteracyjna, sprint 2-4 tyg.), PRINCE2 (procesowa, dokumentacyjna).",keywords:["sprint","iteracja","inicjacja","zamknięcie","cykl"]},
+  {id:"g20",topic:"Rodzaje przypisów",question:"Rodzaje przypisów w publikacjach naukowych.",hint:"Dolne, końcowe. Style: Harvard (autor-rok), Vancouver, APA, Chicago.",answer:"Wg miejsca: dolne (footnotes), końcowe (endnotes).\n\nStyle:\n• Harvardzki (autor-rok) – nauki społeczne\n• Vancouver (numeryczny [1]) – medycyna\n• APA – psychologia\n• Chicago – humanistyka\n• MLA – anglojęzyczna humanistyka",keywords:["harwardzki","vancouver","APA","dolne","endnotes"]},
+  {id:"g21",topic:"Argumenty C++",question:"Sposoby przekazywania argumentów w C++.",hint:"Przez wartość, referencję, wskaźnik. Różnica: modyfikacja oryginału.",answer:"Przez wartość: kopia – oryginał bezpieczny, kosztowne dla dużych obiektów.\n\nPrzez referencję: operuje na oryginale – zmiany widoczne.\n\nPrzez wskaźnik: adres zmiennej – modyfikuje oryginał, może być nullptr.\n\nconst reference – tylko odczyt, bez kopii.",keywords:["wartość","referencja","wskaźnik","nullptr","kopia"]},
+  {id:"g22",topic:"Regulamin poczty służbowej",question:"Co powinien zawierać regulamin służbowej poczty elektronicznej?",hint:"Zakres, bezpieczeństwo, monitoring (RODO + kp), archiwizacja, odpowiedzialność.",answer:"Regulamin powinien obejmować:\n• Zakres podmiotowy i cel\n• Zasady bezpieczeństwa (hasła, phishing)\n• Monitoring (wymóg RODO i kp)\n• Archiwizacja wiadomości\n• Postępowanie przy odejściu pracownika\n• Zakazy i odpowiedzialność",keywords:["monitoring","archiwizacja","hasła","zakazy","regulamin"]},
+  {id:"g23",topic:"Doręczenia przez Portal",question:"Doręczenia pełnomocnikom przez Portal Informacyjny.",hint:"Obowiązkowe dla adwokatów, radców. Fikcja doręczenia po 14 dniach.",answer:"Portal Informacyjny Sądów – obowiązkowy dla adwokatów, radców, notariuszy, prokuratorów.\n\nFikcja doręczenia: pismo uznane za doręczone po pobraniu lub po 14 dniach.\n\nPodstawa: ustawa o doręczeniach elektronicznych + KPC.\nCel: przyspieszenie postępowań.",keywords:["fikcja","14 dni","pełnomocnik","portal","KPC"]},
+  {id:"g24",topic:"Blockchain",question:"Scharakteryzuj blockchain i jego zastosowanie w finansach.",hint:"Decentralizacja, niezmienność, kryptografia. Bitcoin, smart kontrakty, DeFi.",answer:"Blockchain: zdecentralizowana, rozproszona baza danych – bloki połączone kryptograficznie.\n\nCechy: decentralizacja, niezmienność, transparentność.\n\nFinanse: kryptowaluty (Bitcoin, Ethereum), Ripple, smart kontrakty, DeFi, tokenizacja.\n\nWady: energochłonność, nieodwracalność.",keywords:["decentralizacja","blok","kryptowaluty","smart","DeFi"]},
+  {id:"g25",topic:"Innowacje Oslo Manual",question:"Istota, rola i podział innowacji wg Oslo Manual.",hint:"OECD. 4 rodzaje: produktowa, procesowa, marketingowa, organizacyjna.",answer:"Oslo Manual (OECD/Eurostat) – podręcznik klasyfikacji innowacji.\n\nInnowacja: wdrożenie nowego lub ulepszonego produktu, procesu, metody marketingowej lub organizacyjnej.\n\n4 rodzaje: produktowa, procesowa, marketingowa, organizacyjna.\n\nRola: wzrost konkurencyjności i wzrostu gospodarczego.",keywords:["OECD","produktowa","procesowa","marketingowa","organizacyjna"]}
+];
+
+const ALL = [...SWITALA, ...GENERAL];
+
+// ===== STATE =====
+let known = [];
+try { known = JSON.parse(localStorage.getItem('ce_known') || '[]'); } catch{}
+let filter = 'all';
+let queue = [], qIdx = 0;
+let simQs = [], simIdx = 0;
+let streakCount = 0, streakQueue = [], streakIdx = 0;
+let speedScore = 0, speedIdx = 0, speedQs = [], speedTimer = null, speedTimeLeft = 15;
+let tfQs = [], tfIdx = 0, tfCorrect = 0, tfWrong = 0;
+let wheelRaf = null;
+let snakeInterval = null, snakeDx = 1, snakeDy = 0, snakeBody = [], snakeFood = [], snakeScore = 0, snakeQ = null, snakeQIdx = 0;
+
+
+function saveKnown() { try { localStorage.setItem('ce_known', JSON.stringify(known)); } catch{} }
+function markKnown(id) { if (!known.includes(id)) { known.push(id); saveKnown(); } }
+function markUnknown(id) { known = known.filter(k=>k!==id); saveKnown(); }
+function shuffle(a) { return [...a].sort(()=>Math.random()-0.5); }
+function getPool() {
+  if (filter==='switala') return SWITALA;
+  if (filter==='general') return GENERAL;
+  if (filter==='unknown') return ALL.filter(q=>!known.includes(q.id));
+  return ALL;
+}
+function isSwitala(q) { return SWITALA.some(s=>s.id===q.id); }
+
+// ===== SCREENS =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goMenu() {
+  if (snakeInterval) snakeStop();
+  if (speedTimer) clearInterval(speedTimer);
+  updateMenu();
+  showScreen('menu');
+}
+function updateMenu() {
+  document.getElementById('known-count').textContent = known.length;
+  document.getElementById('progress-sub').textContent = known.length+'/40 opanowanych';
+}
+function setFilter(f, btn) {
+  filter = f;
+  document.querySelectorAll('.fpill').forEach(b=>{b.className='fpill off';});
+  btn.className='fpill on';
+}
+
+// ===== FLASHCARD =====
+function startFlashcard() {
+  queue = shuffle(getPool()); qIdx = 0;
+  showScreen('flashcard'); renderFC();
+}
+function renderFC() {
+  if (qIdx >= queue.length) { goMenu(); return; }
+  const q = queue[qIdx];
+  document.getElementById('fc-counter').textContent = (qIdx+1)+' / '+queue.length;
+  document.getElementById('fc-type').textContent = (isSwitala(q)?'🎯 Dr Świtała':'📚 Ogólne')+' • '+q.topic;
+  document.getElementById('fc-question').textContent = q.question;
+  document.getElementById('fc-hint').textContent = '💭 '+q.hint;
+  document.getElementById('fc-ans-wrap').style.display='none';
+  document.getElementById('fc-btn1').style.display='';
+  document.getElementById('fc-btn2').style.display='none';
+}
+function fcShow() {
+  document.getElementById('fc-answer').textContent = queue[qIdx].answer;
+  document.getElementById('fc-ans-wrap').style.display='';
+  document.getElementById('fc-btn1').style.display='none';
+  document.getElementById('fc-btn2').style.display='flex';
+}
+function fcRate(ok) {
+  if (ok) markKnown(queue[qIdx].id); else markUnknown(queue[qIdx].id);
+  qIdx++; renderFC();
+}
+
+// ===== QUIZ =====
+function startQuiz() {
+  queue = shuffle(getPool()); qIdx = 0;
+  showScreen('quiz'); renderQuiz();
+}
+function renderQuiz() {
+  if (qIdx >= queue.length) { goMenu(); return; }
+  const q = queue[qIdx];
+  document.getElementById('quiz-counter').textContent = (qIdx+1)+' / '+queue.length;
+  document.getElementById('quiz-type').textContent = (isSwitala(q)?'🎯 Dr Świtała':'📚 Ogólne')+' • '+q.topic;
+  document.getElementById('quiz-question').textContent = q.question;
+  document.getElementById('quiz-ta').value='';
+  document.getElementById('quiz-input').style.display='';
+  document.getElementById('quiz-result').style.display='none';
+}
+function quizCheck() {
+  if (!document.getElementById('quiz-ta').value.trim()) return;
+  document.getElementById('quiz-ans').textContent = queue[qIdx].answer;
+  document.getElementById('quiz-input').style.display='none';
+  document.getElementById('quiz-result').style.display='';
+}
+function quizRate(ok) {
+  if (ok) markKnown(queue[qIdx].id); else markUnknown(queue[qIdx].id);
+  qIdx++; renderQuiz();
+}
+
+// ===== SIMULATION =====
+function startSimulation() {
+  const s = shuffle(SWITALA)[0];
+  const g = shuffle(GENERAL).slice(0,2);
+  simQs = shuffle([s,...g]); simIdx = 0;
+  showScreen('sim'); renderSim();
+}
+function renderSim() {
+  const q = simQs[simIdx];
+  document.getElementById('sim-counter').textContent='Pytanie '+(simIdx+1)+' z 3';
+  document.getElementById('sim-type').textContent=(isSwitala(q)?'🎯 Dr Świtała':'📚 Ogólne')+' • '+q.topic;
+  document.getElementById('sim-question').textContent=q.question;
+  document.getElementById('sim-ta').value='';
+  document.getElementById('sim-input').style.display='';
+  document.getElementById('sim-result').style.display='none';
+  const dots=document.getElementById('sim-dots');
+  dots.innerHTML=simQs.map((_,i)=>`<div style="width:32px;height:4px;border-radius:2px;background:${i<=simIdx?'var(--pink)':'rgba(255,255,255,0.1)'}"></div>`).join('');
+}
+function simCheck() {
+  if (!document.getElementById('sim-ta').value.trim()) return;
+  document.getElementById('sim-ans').textContent=simQs[simIdx].answer;
+  document.getElementById('sim-input').style.display='none';
+  document.getElementById('sim-result').style.display='';
+  document.getElementById('sim-next-btn').textContent=simIdx<2?'Następne pytanie →':'Zakończ symulację 🎉';
+}
+function simNext() { simIdx++; if(simIdx<3) renderSim(); else showScreen('sim-done'); }
+
+// ===== STREAK =====
+function startStreak() {
+  streakQueue = shuffle(getPool()); streakIdx = 0; streakCount = 0;
+  showScreen('streak'); renderStreak();
+}
+function renderStreak() {
+  if (streakIdx >= streakQueue.length) { streakIdx = 0; streakQueue = shuffle(getPool()); }
+  const q = streakQueue[streakIdx];
+  document.getElementById('streak-count').textContent = streakCount;
+  document.getElementById('streak-type').textContent = (isSwitala(q)?'🎯 Dr Świtała':'📚 Ogólne')+' • '+q.topic;
+  document.getElementById('streak-question').textContent = q.question;
+  document.getElementById('streak-hint').textContent = '💭 '+q.hint;
+  document.getElementById('streak-ta').value='';
+  document.getElementById('streak-input').style.display='';
+  document.getElementById('streak-result').style.display='none';
+}
+function streakCheck() {
+  if (!document.getElementById('streak-ta').value.trim()) return;
+  document.getElementById('streak-ans').textContent = streakQueue[streakIdx].answer;
+  document.getElementById('streak-input').style.display='none';
+  document.getElementById('streak-result').style.display='';
+}
+function streakRate(ok) {
+  if (ok) { streakCount++; streakIdx++; renderStreak(); }
+  else {
+    document.getElementById('streak-final-score').textContent = streakCount;
+    const msgs = ['Nie przejmuj się, zdarza się! 💪','Dobra passa – następnym razem więcej! 🔥','Ćwicz dalej, dasz radę! 💙'];
+    document.getElementById('streak-msg').textContent = streakCount >= 10 ? 'Niesamowita passa! Jesteś gotowa na obronę! 🎓' : msgs[streakCount % msgs.length];
+    showScreen('streak-done');
+  }
+}
+
+// ===== SPEED QUIZ =====
+function startSpeed() {
+  speedQs = shuffle(getPool()).slice(0,10); speedIdx = 0; speedScore = 0;
+  showScreen('speed'); renderSpeed();
+}
+function renderSpeed() {
+  if (speedIdx >= speedQs.length) {
+    if (speedTimer) clearInterval(speedTimer);
+    document.getElementById('speed-final').textContent = speedScore;
+    const msgs = speedScore>=8?'Doskonale! Jesteś gotowa! 🎓':speedScore>=5?'Nieźle! Powtórz słabsze tematy! 💪':'Ćwicz więcej – dasz radę! 🔥';
+    document.getElementById('speed-msg').textContent = msgs;
+    showScreen('speed-done'); return;
+  }
+  const q = speedQs[speedIdx];
+  document.getElementById('speed-counter').textContent = (speedIdx+1)+'/10';
+  document.getElementById('speed-type').textContent = (isSwitala(q)?'🎯 Dr Świtała':'📚 Ogólne')+' • '+q.topic;
+  document.getElementById('speed-question').textContent = q.question;
+  document.getElementById('speed-next').style.display='none';
+
+  // Generate options: correct answer keywords + wrong ones
+  const correctKw = q.keywords.slice(0,2);
+  const wrongPool = ALL.filter(x=>x.id!==q.id);
+  const wrongKw = shuffle(wrongPool).slice(0,2).map(x=>shuffle(x.keywords)[0]);
+  const opts = shuffle([...correctKw.map(k=>({text:k,correct:true})), ...wrongKw.map(k=>({text:k,correct:false}))]);
+
+  const container = document.getElementById('speed-opts');
+  container.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className='speed-option';
+    btn.textContent = opt.text;
+    btn.onclick = () => speedAnswer(opt.correct, btn, opts);
+    container.appendChild(btn);
+  });
+
+  speedTimeLeft = 15;
+  if (speedTimer) clearInterval(speedTimer);
+  speedTimer = setInterval(() => {
+    speedTimeLeft--;
+    document.getElementById('speed-timer').textContent = speedTimeLeft;
+    const offset = 107 - (107 * speedTimeLeft / 15);
+    document.getElementById('speed-ring').style.strokeDashoffset = offset;
+    if (speedTimeLeft <= 0) { clearInterval(speedTimer); speedTimeout(); }
+  }, 1000);
+}
+function speedAnswer(correct, clickedBtn, opts) {
+  if (speedTimer) clearInterval(speedTimer);
+  document.querySelectorAll('.speed-option').forEach(b=>{
+    b.onclick=null;
+    const found = opts.find(o=>o.text===b.textContent); if (found && found.correct) b.classList.add('reveal');
+  });
+  clickedBtn.classList.remove('reveal');
+  clickedBtn.classList.add(correct?'correct':'wrong');
+  if (correct) speedScore++;
+  document.getElementById('speed-full-ans').textContent = speedQs[speedIdx].answer;
+  document.getElementById('speed-next').style.display='';
+}
+function speedTimeout() {
+  document.querySelectorAll('.speed-option').forEach(b=>{ b.onclick=null; });
+  document.getElementById('speed-full-ans').textContent = speedQs[speedIdx].answer;
+  document.getElementById('speed-next').style.display='';
+}
+function speedNext() { speedIdx++; renderSpeed(); }
+
+// ===== TRUE/FALSE =====
+const TF_ITEMS = [
+  {statement:"Dane osobowe mogą dotyczyć osób prawnych (firm).",correct:false,explain:"Dane osobowe dotyczą wyłącznie osób fizycznych – to podstawowa zasada z art. 4 RODO."},
+  {statement:"Kwalifikowany podpis elektroniczny jest równoważny podpisowi własnoręcznemu.",correct:true,explain:"Tak – kwalifikowany podpis elektroniczny ma moc prawną podpisu własnoręcznego zgodnie z eIDAS."},
+  {statement:"Zasada rozliczalności RODO oznacza, że to urząd UODO musi udowodnić naruszenia administratora.",correct:false,explain:"Ciężar dowodu spoczywa na administratorze – to on musi wykazać przestrzeganie zasad."},
+  {statement:"Web 2.0 charakteryzuje się aktywnym udziałem użytkowników w tworzeniu treści.",correct:true,explain:"Tak – user-generated content to kluczowa cecha Web 2.0 (media społecznościowe, wiki, blogi)."},
+  {statement:"Blockchain jest zarządzany przez centralną instytucję finansową.",correct:false,explain:"Blockchain jest zdecentralizowany – brak centralnego administratora to jego kluczowa cecha."},
+  {statement:"PRINCE2 może być stosowana wyłącznie w projektach IT.",correct:false,explain:"PRINCE2 jest metodyką ogólną – można ją stosować w projektach każdej branży."},
+  {statement:"Zbrodnia może być popełniona nieumyślnie.",correct:false,explain:"Zbrodnia może być popełniona wyłącznie umyślnie. Tylko niektóre występki mogą być nieumyślne."},
+  {statement:"Prawo do bycia zapomnianym to prawo do usunięcia danych osobowych.",correct:true,explain:"Tak – prawo do usunięcia (art. 17 RODO) jest potocznie nazywane prawem do bycia zapomnianym."},
+  {statement:"Usługa społeczeństwa informacyjnego musi być zawsze odpłatna.",correct:false,explain:"USI może być nieodpłatna (np. bezpłatna poczta e-mail) – finansowana np. z reklam."},
+  {statement:"System informacyjny jest pojęciem szerszym niż system teleinformatyczny.",correct:true,explain:"Tak – system informacyjny obejmuje systemy manualne i zautomatyzowane. Teleinformatyczny to jego podzbiór."},
+  {statement:"Zdolność prawna osoby fizycznej powstaje z chwilą ukończenia 18 roku życia.",correct:false,explain:"Zdolność prawna powstaje z chwilą urodzenia. Od 18 lat mamy pełną zdolność do czynności prawnych."},
+  {statement:"Szczególne kategorie danych osobowych obejmują dane genetyczne.",correct:true,explain:"Tak – dane genetyczne są wymienione w art. 9 RODO jako szczególna kategoria danych."},
+  {statement:"Ewaluacja sprawdza zgodność działań ze standardami i przepisami.",correct:false,explain:"To robi audyt. Ewaluacja ocenia wartość, efektywność i skuteczność programu/działania."},
+  {statement:"DPIA (ocena skutków) jest obowiązkowa przy każdym przetwarzaniu danych.",correct:false,explain:"DPIA jest obowiązkowa tylko gdy przetwarzanie niesie wysokie ryzyko dla praw osób fizycznych."},
+  {statement:"Utwór w prawie autorskim musi być zarejestrowany, by podlegać ochronie.",correct:false,explain:"Ochrona prawnoautorska powstaje automatycznie z chwilą ustalenia utworu – bez rejestracji."},
+];
+
+function startTF() {
+  tfQs = shuffle(TF_ITEMS); tfIdx = 0; tfCorrect = 0; tfWrong = 0;
+  showScreen('tf'); renderTF();
+}
+function renderTF() {
+  if (tfIdx >= tfQs.length) {
+    // cycle
+    tfQs = shuffle(TF_ITEMS); tfIdx = 0;
+  }
+  const q = tfQs[tfIdx];
+  document.getElementById('tf-counter').textContent = (tfIdx+1)+' / '+tfQs.length;
+  document.getElementById('tf-statement').textContent = q.statement;
+  document.getElementById('tf-feedback').style.display='none';
+  document.getElementById('tf-btns').style.display='flex';
+  document.querySelectorAll('.tf-btn').forEach(b=>{ b.className=b.classList.contains('tf-true')?'tf-btn tf-true':'tf-btn tf-false'; });
+  document.getElementById('tf-correct').textContent = tfCorrect;
+  document.getElementById('tf-wrong').textContent = tfWrong;
+}
+function tfAnswer(userSaysTrue) {
+  const q = tfQs[tfIdx];
+  const isCorrect = (userSaysTrue === q.correct);
+  if (isCorrect) tfCorrect++; else tfWrong++;
+  document.querySelectorAll('.tf-btn').forEach(b=>{
+    b.onclick=null;
+    const isTrue = b.classList.contains('tf-true');
+    if (isTrue === q.correct) b.classList.add('correct');
+    else if (isTrue === userSaysTrue) b.classList.add('wrong');
+  });
+  document.getElementById('tf-explain').textContent = (isCorrect?'✅ Dobrze! ':'❌ Błąd! ') + q.explain;
+  document.getElementById('tf-feedback').style.display='';
+  document.getElementById('tf-correct').textContent = tfCorrect;
+  document.getElementById('tf-wrong').textContent = tfWrong;
+}
+function tfNext() {
+  tfIdx++;
+  document.querySelectorAll('.tf-btn').forEach(b=>{
+    b.onclick = b.classList.contains('tf-true') ? ()=>tfAnswer(true) : ()=>tfAnswer(false);
+  });
+  renderTF();
+}
+
+// ===== WHEEL =====
+const WHEEL_COLORS = ['#4f8ef7','#9b6ef7','#f75e8e','#3ed6a0','#f7c34f','#f7834f','#7ecaf7','#f7a4c3','#a3e635','#fb923c'];
+let wheelItems = [];
+let wheelAngle = 0;
+let wheelSpinning = false;
+
+function startWheel() {
+  // Pick 10 random questions from pool each time
+  wheelItems = shuffle(getPool()).slice(0, 10);
+  showScreen('wheel');
+  drawWheel(0);
+}
+
+function getWheelLabel(topic) {
+  // Shorten topic to fit on wheel slice
+  if (topic.length <= 10) return topic;
+  return topic.slice(0, 9) + '…';
+}
+
+function drawWheel(angle) {
+  const canvas = document.getElementById('wheel-canvas');
+  const ctx = canvas.getContext('2d');
+  const cx = 150, cy = 150, r = 140;
+  const slices = wheelItems.length;
+  const sliceAngle = (2*Math.PI)/slices;
+  ctx.clearRect(0,0,300,300);
+  for (let i=0;i<slices;i++) {
+    const start = angle + i*sliceAngle;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,r,start,start+sliceAngle);
+    ctx.closePath();
+    ctx.fillStyle = WHEEL_COLORS[i % WHEEL_COLORS.length];
+    ctx.fill();
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(start+sliceAngle/2);
+    ctx.textAlign='right';
+    ctx.fillStyle='white';
+    ctx.font='bold 11px Segoe UI, sans-serif';
+    ctx.fillText(getWheelLabel(wheelItems[i].topic), r-8, 4);
+    ctx.restore();
+  }
+  // center circle
+  ctx.beginPath();
+  ctx.arc(cx,cy,20,0,2*Math.PI);
+  ctx.fillStyle='#f8fafc';
+  ctx.fill();
+  // pointer triangle on right
+  ctx.beginPath();
+  ctx.moveTo(cx+r-10,cy);
+  ctx.lineTo(cx+r+14,cy-9);
+  ctx.lineTo(cx+r+14,cy+9);
+  ctx.closePath();
+  ctx.fillStyle='#1e293b';
+  ctx.fill();
+}
+
+function spinWheel() {
+  if (wheelSpinning) return;
+  wheelSpinning = true;
+  document.getElementById('wheel-spin-btn').disabled=true;
+  document.getElementById('wheel-result').style.display='none';
+  const spinAmount = (Math.PI*2*6) + Math.random()*Math.PI*2;
+  const duration = 3500;
+  const start = performance.now();
+  const startAngle = wheelAngle;
+  function animate(now) {
+    const elapsed = now - start;
+    const t = Math.min(elapsed/duration, 1);
+    const ease = 1 - Math.pow(1-t, 4);
+    wheelAngle = startAngle + spinAmount*ease;
+    drawWheel(wheelAngle);
+    if (t < 1) { requestAnimationFrame(animate); }
+    else {
+      wheelSpinning = false;
+      document.getElementById('wheel-spin-btn').disabled=false;
+      showWheelResult();
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+function showWheelResult() {
+  // Calculate which slice the pointer (right side, angle=0) landed on
+  const slices = wheelItems.length;
+  const sliceAngle = (2*Math.PI)/slices;
+  // Pointer is at angle 0 (right side), normalize wheel angle
+  const normalizedAngle = ((wheelAngle % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+  // Which slice index is at angle 0?
+  const pointerAngle = (2*Math.PI - normalizedAngle) % (2*Math.PI);
+  const sliceIdx = Math.floor(pointerAngle / sliceAngle) % slices;
+  const q = wheelItems[sliceIdx];
+
+  document.getElementById('wheel-topic').textContent = (isSwitala(q)?'🎯 Dr Świtała':'📚 Ogólne')+' • '+q.topic;
+  document.getElementById('wheel-question').textContent = q.question;
+  document.getElementById('wheel-answer').textContent = q.answer;
+  document.getElementById('wheel-ans-wrap').style.display='none';
+  document.getElementById('wheel-ans-btn').style.display='';
+  document.getElementById('wheel-result').style.display='';
+}
+function wheelShowAns() {
+  document.getElementById('wheel-ans-wrap').style.display='';
+  document.getElementById('wheel-ans-btn').style.display='none';
+}
+
+// ===== DOPASUJ PARY =====
+const CANDY_PAIRS = [
+  {term:"Dane osobowe",def:"Informacje o osobie fizycznej możliwej do zidentyfikowania"},
+  {term:"Administrator",def:"Podmiot ustalający cele i sposoby przetwarzania danych"},
+  {term:"Zgoda (RODO)",def:"Dobrowolne, konkretne, świadome i jednoznaczne okazanie woli"},
+  {term:"Rozliczalność",def:"Zasada – administrator musi wykazać przestrzeganie RODO"},
+  {term:"Szczególne kategorie danych",def:"Dane wrażliwe, których przetwarzanie jest co do zasady zakazane"},
+  {term:"DPIA",def:"Ocena skutków dla ochrony danych, obowiązkowa przy wysokim ryzyku"},
+  {term:"Cyberbezpieczeństwo",def:"Odporność systemów na naruszenia poufności, integralności i dostępności"},
+  {term:"Blockchain",def:"Zdecentralizowana baza danych z blokami połączonymi kryptograficznie"},
+  {term:"Podpis kwalifikowany",def:"Podpis elektroniczny równoważny prawnie podpisowi własnoręcznemu"},
+  {term:"Usługi zaufania",def:"Elektroniczne usługi zwiększające bezpieczeństwo transakcji (eIDAS)"},
+  {term:"Informacja publiczna",def:"Każda informacja o sprawach publicznych, dostępna bez uzasadnienia"},
+  {term:"System teleinformatyczny",def:"Urządzenia i oprogramowanie do przetwarzania danych przez sieci"},
+  {term:"Zbrodnia",def:"Czyn zagrożony karą min. 3 lat pozbawienia wolności, tylko umyślna"},
+  {term:"Web 2.0",def:"Internet z aktywnym tworzeniem treści przez użytkowników"},
+  {term:"Utwór",def:"Przejaw działalności twórczej o indywidualnym charakterze"},
+  {term:"Przedsiębiorca",def:"Podmiot wykonujący zarobkową, zorganizowaną działalność we własnym imieniu"},
+  {term:"Pieniądz elektroniczny",def:"Wartość pieniężna przechowywana elektronicznie za środki pieniężne"},
+  {term:"Stratyfikacja",def:"Hierarchiczny podział społeczeństwa na warstwy wg dostępu do zasobów"},
+  {term:"Ewaluacja",def:"Ocena wartości i efektywności programu – czy działa i czy warto"},
+  {term:"Audyt",def:"Sprawdzenie zgodności ze standardami – może skutkować sankcjami"},
+  {term:"Zdolność prawna",def:"Możność bycia podmiotem praw i obowiązków – od urodzenia"},
+  {term:"Prawo do usunięcia",def:"Prawo żądania skasowania swoich danych osobowych przez administratora"},
+  {term:"PRINCE2",def:"Procesowa metodyka projektów – 7 zasad, 7 tematów, 7 procesów"},
+  {term:"Soc. sieciowe",def:"Typ społeczeństwa gdzie sieć zastępuje hierarchię – wg Castellsa"},
+  {term:"Safe harbour",def:"Wyłączenie odpowiedzialności platform za treści gdy nie mają o nich wiedzy"},
+  {term:"Ryzyko",def:"Prawdopodobieństwo zdarzenia pomnożone przez jego negatywne skutki"},
+  {term:"Triada CIA",def:"Trzy filary cyberbezpieczeństwa: poufność, integralność, dostępność"},
+  {term:"Zasada legalizmu",def:"Organy władzy działają na podstawie i w granicach prawa (art. 7 Konst.)"},
+  {term:"USI",def:"Usługa elektroniczna świadczona na odległość na indywidualne żądanie"},
+  {term:"Przetwarzanie",def:"Każda operacja na danych osobowych – zbieranie, przechowywanie, usuwanie"},
+];
+
+let candyScore = 0, candyRound = 0, candyPairsFound = 0;
+let candySelectedTerm = null, candySelectedDef = null;
+let candyCurrentPairs = [];
+let candyLocked = false;
+
+function startCandy() {
+  candyScore = 0; candyRound = 0;
+  showScreen('candy');
+  candyNewRound();
+}
+
+function candyNewRound() {
+  candyRound++;
+  candyPairsFound = 0;
+  candySelectedTerm = null;
+  candySelectedDef = null;
+  candyLocked = false;
+  document.getElementById('candy-pairs').textContent = '0';
+  document.getElementById('candy-msg-area').textContent = '';
+
+  // Pick 6 pairs
+  candyCurrentPairs = shuffle(CANDY_PAIRS).slice(0, 6);
+
+  // Shuffle terms and defs independently so they don't align
+  const terms = shuffle(candyCurrentPairs.map((p, i) => ({ pairId: i, text: p.term, type: 'term' })));
+  const defs  = shuffle(candyCurrentPairs.map((p, i) => ({ pairId: i, text: p.def,  type: 'def'  })));
+
+  const board = document.getElementById('candy-board');
+  board.innerHTML = '';
+
+  // Render two columns interleaved: term[0], def[0], term[1], def[1]...
+  for (let i = 0; i < 6; i++) {
+    board.appendChild(makeCandyCard(terms[i], 'term'));
+    board.appendChild(makeCandyCard(defs[i],  'def'));
+  }
+}
+
+function makeCandyCard(card, type) {
+  const el = document.createElement('div');
+  el.id = 'cc-' + type + '-' + card.pairId;
+  el.dataset.pairId = card.pairId;
+  el.dataset.type = type;
+
+  const isTerm = type === 'term';
+  el.style.cssText = [
+    'border-radius:10px',
+    'cursor:pointer',
+    'display:flex',
+    'align-items:center',
+    'justify-content:center',
+    'font-size:' + (isTerm ? '12px' : '10px'),
+    'font-weight:' + (isTerm ? '700' : '400'),
+    'text-align:center',
+    'padding:10px 8px',
+    'line-height:1.35',
+    'transition:all 0.15s',
+    'background:' + (isTerm ? 'rgba(79,142,247,0.18)' : 'rgba(155,110,247,0.18)'),
+    'border:2px solid ' + (isTerm ? 'rgba(79,142,247,0.35)' : 'rgba(155,110,247,0.35)'),
+    'color:#1e293b',
+    'user-select:none',
+    'min-height:64px',
+  ].join(';');
+
+  el.textContent = card.text;
+  el.onclick = () => candyClick(el, card);
+  return el;
+}
+
+function candyClick(el, card) {
+  if (candyLocked) return;
+  if (el.dataset.matched) return;
+
+  const isTerm = card.type === 'term';
+
+  // Deselect if clicking same card again
+  if (isTerm && candySelectedTerm && candySelectedTerm.el === el) {
+    el.style.background = 'rgba(79,142,247,0.12)';
+    el.style.borderColor = 'rgba(79,142,247,0.35)';
+    el.style.transform = 'scale(1)';
+    candySelectedTerm = null;
+    return;
+  }
+  if (!isTerm && candySelectedDef && candySelectedDef.el === el) {
+    el.style.background = 'rgba(155,110,247,0.12)';
+    el.style.borderColor = 'rgba(155,110,247,0.35)';
+    el.style.transform = 'scale(1)';
+    candySelectedDef = null;
+    return;
+  }
+
+  // Deselect previous of same type
+  if (isTerm && candySelectedTerm) {
+    candySelectedTerm.el.style.background = 'rgba(79,142,247,0.12)';
+    candySelectedTerm.el.style.borderColor = 'rgba(79,142,247,0.35)';
+    candySelectedTerm.el.style.transform = 'scale(1)';
+  }
+  if (!isTerm && candySelectedDef) {
+    candySelectedDef.el.style.background = 'rgba(155,110,247,0.12)';
+    candySelectedDef.el.style.borderColor = 'rgba(155,110,247,0.35)';
+    candySelectedDef.el.style.transform = 'scale(1)';
+  }
+
+  // Select this card
+  el.style.background = isTerm ? 'rgba(79,142,247,0.45)' : 'rgba(155,110,247,0.45)';
+  el.style.borderColor = isTerm ? '#4f8ef7' : '#9b6ef7';
+  el.style.transform = 'scale(1.04)';
+
+  if (isTerm) candySelectedTerm = { el, card };
+  else        candySelectedDef  = { el, card };
+
+  // Check for match when both selected
+  if (candySelectedTerm && candySelectedDef) {
+    if (candySelectedTerm.card.pairId === candySelectedDef.card.pairId) {
+      // MATCH
+      [candySelectedTerm.el, candySelectedDef.el].forEach(e => {
+        e.style.background = 'rgba(62,214,160,0.2)';
+        e.style.borderColor = 'var(--green)';
+        e.style.opacity = '0.5';
+        e.style.transform = 'scale(1)';
+        e.style.cursor = 'default';
+        e.dataset.matched = '1';
+        e.onclick = null;
+      });
+      candyPairsFound++;
+      candyScore += 10;
+      document.getElementById('candy-pairs').textContent = candyPairsFound;
+      document.getElementById('candy-msg-area').textContent = '✅ Dobra para! +10 pkt';
+      document.getElementById('candy-msg-area').style.color = 'var(--green)';
+      candySelectedTerm = null;
+      candySelectedDef  = null;
+
+      if (candyPairsFound === 6) {
+        setTimeout(() => {
+          if (candyRound < 3) {
+            document.getElementById('candy-msg-area').textContent = '🎉 Runda ' + candyRound + ' ukończona! Następna...';
+            setTimeout(candyNewRound, 1200);
+          } else {
+            document.getElementById('candy-final-score').textContent = candyScore;
+            document.getElementById('candy-final-msg').textContent =
+              candyScore >= 50 ? 'Świetnie! Znasz definicje na pamięć! 🎓' : 'Ćwicz dalej – dasz radę! 💪';
+            showScreen('candy-done');
+          }
+        }, 500);
+      }
+    } else {
+      // NO MATCH – shake and reset after short delay
+      document.getElementById('candy-msg-area').textContent = '❌ Nie pasuje, spróbuj jeszcze raz!';
+      document.getElementById('candy-msg-area').style.color = '#f87171';
+      candyLocked = true;
+      const termEl = candySelectedTerm.el;
+      const defEl  = candySelectedDef.el;
+      setTimeout(() => {
+        termEl.style.background = 'rgba(79,142,247,0.12)';
+        termEl.style.borderColor = 'rgba(79,142,247,0.35)';
+        termEl.style.transform = 'scale(1)';
+        defEl.style.background  = 'rgba(155,110,247,0.12)';
+        defEl.style.borderColor = 'rgba(155,110,247,0.35)';
+        defEl.style.transform = 'scale(1)';
+        candySelectedTerm = null;
+        candySelectedDef  = null;
+        candyLocked = false;
+      }, 700);
+    }
+  }
+}
+
+// ===== PROGRESS =====
+function showProgress() {
+  const sk=SWITALA.filter(q=>known.includes(q.id)).length;
+  const gk=GENERAL.filter(q=>known.includes(q.id)).length;
+  document.getElementById('prog-stats').innerHTML=`
+    <div class="prog-stat"><div class="prog-num" style="color:var(--blue);">${sk}/${SWITALA.length}</div><div style="color:#475569;font-size:13px;margin-top:4px;">Dr Świtała</div><div class="pbar-bg mt8"><div class="pbar-fill" style="width:${(sk/SWITALA.length)*100}%;background:var(--blue);"></div></div></div>
+    <div class="prog-stat"><div class="prog-num" style="color:var(--purple);">${gk}/${GENERAL.length}</div><div style="color:#475569;font-size:13px;margin-top:4px;">Ogólne</div><div class="pbar-bg mt8"><div class="pbar-fill" style="width:${(gk/GENERAL.length)*100}%;background:var(--purple);"></div></div></div>
+  `;
+  document.getElementById('prog-list').innerHTML=ALL.map(q=>`
+    <div class="prog-item">
+      <span>${known.includes(q.id)?'✅':'⬜'}</span>
+      <div style="flex:1;"><div style="font-size:13px;font-weight:500;">${q.topic}</div><div style="font-size:11px;color:#64748b;">${isSwitala(q)?'Dr Świtała':'Ogólne'}</div></div>
+      <button onclick="toggleKnown('${q.id}',this)" style="background:none;border:1px solid rgba(0,0,0,0.1);border-radius:6px;color:#475569;cursor:pointer;padding:4px 10px;font-size:11px;font-family:inherit;">${known.includes(q.id)?'Cofnij':'Znam'}</button>
+    </div>
+  `).join('');
+  showScreen('progress');
+}
+function toggleKnown(id,btn) {
+  if (known.includes(id)) { markUnknown(id); btn.parentElement.querySelector('span').textContent='⬜'; btn.textContent='Znam'; }
+  else { markKnown(id); btn.parentElement.querySelector('span').textContent='✅'; btn.textContent='Cofnij'; }
+  updateMenu();
+}
+
+// ===== INIT =====
+updateMenu();
+</script>
+</body>
+</html>
